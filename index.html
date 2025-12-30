@@ -168,7 +168,11 @@ body{
 function openInvitation(){
   document.getElementById('cover').style.display='none';
   document.getElementById('content').style.display='flex';
-  document.getElementById('music').play();
+
+  const music = document.getElementById('music');
+  music.volume = 0.6;
+  music.play().catch(err => console.log("Autoplay dicegah"));
+
   document.body.style.overflow='auto';
 }
 
@@ -189,4 +193,5 @@ setInterval(()=>{
 
 </body>
 </html>
+
 
