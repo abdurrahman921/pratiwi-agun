@@ -28,6 +28,9 @@ body{
 .cover{
   background:linear-gradient(135deg,#fdfbf6,#f3efe5);
 }
+  <button onclick="toggleMusic()" class="btn">
+  🎵 Putar / Hentikan Musik
+</button>
 .title{
   font-family:'Playfair Display',serif;
   font-size:34px;
@@ -165,26 +168,24 @@ body{
 </div>
 
 <script>
+let playing = false;
+const music = document.getElementById("music");
+
 function openInvitation(){
   document.getElementById('cover').style.display='none';
   document.getElementById('content').style.display='flex';
-  document.getElementById('music').play();
   document.body.style.overflow='auto';
 }
 
-// COUNTDOWN
-const targetDate = new Date("2026-01-11T09:00:00").getTime();
-setInterval(()=>{
-  const now = new Date().getTime();
-  const diff = targetDate - now;
-
-  if(diff > 0){
-    document.getElementById("days").innerText = Math.floor(diff/(1000*60*60*24));
-    document.getElementById("hours").innerText = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
-    document.getElementById("minutes").innerText = Math.floor((diff%(1000*60*60))/(1000*60));
-    document.getElementById("seconds").innerText = Math.floor((diff%(1000*60))/1000);
+function toggleMusic(){
+  if(!playing){
+    music.play();
+    playing = true;
+  } else {
+    music.pause();
+    playing = false;
   }
-},1000);
+}
 </script>
 
 </body>
