@@ -28,9 +28,6 @@ body{
 .cover{
   background:linear-gradient(135deg,#fdfbf6,#f3efe5);
 }
-  <button onclick="toggleMusic()" class="btn">
-  🎵 Putar / Hentikan Musik
-</button>
 .title{
   font-family:'Playfair Display',serif;
   font-size:34px;
@@ -42,7 +39,7 @@ body{
   margin:20px 0;
 }
 .btn{
-  margin-top:25px;
+  margin-top:20px;
   padding:14px 32px;
   border-radius:30px;
   border:none;
@@ -53,7 +50,6 @@ body{
 }
 .content{
   display:none;
-  animation:fadeIn 1.2s ease;
 }
 .card{
   background:white;
@@ -62,7 +58,6 @@ body{
   padding:30px;
   border-radius:18px;
   box-shadow:0 15px 40px rgba(0,0,0,.12);
-  animation:slideUp 1.2s ease;
 }
 .countdown{
   display:flex;
@@ -86,22 +81,34 @@ body{
   text-decoration:none;
   border-radius:30px;
 }
+.music-toggle{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#b89b5e;
+  color:white;
+  border:none;
+  border-radius:50%;
+  width:56px;
+  height:56px;
+  font-size:22px;
+  cursor:pointer;
+  display:none;
+}
 .footer{
-  margin-top:40px;
+  margin:40px 0;
   font-size:14px;
   color:#777;
-}
-@keyframes fadeIn{
-  from{opacity:0}to{opacity:1}
-}
-@keyframes slideUp{
-  from{opacity:0;transform:translateY(40px)}
-  to{opacity:1;transform:translateY(0)}
 }
 </style>
 </head>
 
 <body>
+
+<!-- AUDIO LOKAL (AMAN) -->
+<audio id="music" loop preload="auto">
+  <source src="Janji_Suci_Yovie_Nuno.mp3.mp3" type="audio/mpeg">
+</audio>
 
 <!-- COVER -->
 <div class="cover" id="cover">
@@ -110,22 +117,11 @@ body{
   <button class="btn" onclick="openInvitation()">💌 Buka Undangan</button>
 </div>
 
-<!-- MUSIC -->
-<audio id="music" loop>
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/Janji_Suci_Yovie_Nuno.mp3.mp3" type="audio/mpeg">
-</audio>
-
 <!-- CONTENT -->
 <div class="content" id="content">
   <div class="card">
     <p><strong>Assalamu’alaikum Warahmatullahi Wabarakatuh</strong></p>
 
-    <p>
-      Dengan memohon rahmat dan ridha Allah SWT, kami mengundang
-      Bapak/Ibu/Saudara/i untuk menghadiri pernikahan kami.
-    </p>
-
-    <!-- COUNTDOWN -->
     <div class="countdown">
       <div class="time-box"><div id="days">0</div><small>Hari</small></div>
       <div class="time-box"><div id="hours">0</div><small>Jam</small></div>
@@ -133,59 +129,72 @@ body{
       <div class="time-box"><div id="seconds">0</div><small>Detik</small></div>
     </div>
 
-    <p><strong>Hari / Tanggal</strong><br>
-    Minggu, 11 Januari 2026</p>
-
-    <p><strong>Waktu</strong><br>
+    <p><strong>Minggu, 11 Januari 2026</strong><br>
     Pukul 09.00 WIB s/d selesai</p>
 
-    <p><strong>Tempat</strong><br>
+    <p>
     Jl. Sidingklik Blok Karang Tingtang<br>
     RT.002 RW.002 Desa Babadan<br>
     Kec. Gunungjati Kab. Cirebon
     </p>
 
-    <a class="map-btn" href="https://maps.app.goo.gl/J8i1hd63te24FdHf6" target="_blank">
+    <a class="map-btn" href="https://https://maps.app.goo.gl/1F8CGqNtedSdN1NK6" target="_blank">
       📍 Google Maps
     </a>
 
-    <!-- WHATSAPP RSVP -->
-    <a class="wa-btn" href="https://wa.me/6289636455892?text=Assalamu’alaikum,%20insyaAllah%20saya%20akan%20hadir%20di%20pernikahan%20Pratiwi%20&%20Agun" target="_blank">
+    <a class="wa-btn" href="https://wa.me/6289636455892" target="_blank">
       💬 Konfirmasi Kehadiran
     </a>
-    <!-- GANTI NOMOR WA DI ATAS -->
   </div>
 
   <div class="footer">
-    <p><em>
-    “Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan pasangan-pasangan
-    untukmu dari jenismu sendiri, supaya kamu merasa tenteram kepadanya.”
-    </em><br><strong>QS. Ar-Rum: 21</strong></p>
-
-    Wassalamu’alaikum Warahmatullahi Wabarakatuh<br>
-    <strong>Keluarga Besar Pratiwi & Agun Fernanto</strong>
+    <em>QS. Ar-Rum: 21</em><br>
+    Keluarga Besar Pratiwi & Agun Fernanto
   </div>
 </div>
 
+<!-- TOMBOL MUSIK -->
+<button class="music-toggle" id="musicBtn" onclick="toggleMusic()">🎵</button>
+
 <script>
-let playing = false;
 const music = document.getElementById("music");
+const btnMusic = document.getElementById("musicBtn");
+let isPlaying = false;
 
 function openInvitation(){
-  document.getElementById('cover').style.display='none';
-  document.getElementById('content').style.display='flex';
-  document.body.style.overflow='auto';
+  document.getElementById("cover").style.display="none";
+  document.getElementById("content").style.display="flex";
+  btnMusic.style.display="block";
+  document.body.style.overflow="auto";
+
+  // PLAY DI DALAM AKSI KLIK → AMAN BROWSER
+  music.volume = 0.7;
+  music.play();
+  isPlaying = true;
 }
 
 function toggleMusic(){
-  if(!playing){
-    music.play();
-    playing = true;
-  } else {
+  if(isPlaying){
     music.pause();
-    playing = false;
+    isPlaying = false;
+  } else {
+    music.play();
+    isPlaying = true;
   }
 }
+
+// COUNTDOWN
+const target = new Date("2026-01-11T09:00:00").getTime();
+setInterval(()=>{
+  const now = new Date().getTime();
+  const diff = target - now;
+  if(diff > 0){
+    days.innerText = Math.floor(diff/(1000*60*60*24));
+    hours.innerText = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+    minutes.innerText = Math.floor((diff%(1000*60*60))/(1000*60));
+    seconds.innerText = Math.floor((diff%(1000*60))/1000);
+  }
+},1000);
 </script>
 
 </body>
