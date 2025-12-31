@@ -170,9 +170,16 @@ Yang Insya Allah akan dilaksanakan pada:
       📍 Google Maps
     </a>
 
-    <a class="wa-btn" href="https://wa.me/6289636455892" target="_blank">
-      💬 Konfirmasi Kehadiran
-    </a>
+    <div style="margin-top:20px">
+  <label for="kehadiran"><strong>Konfirmasi Kehadiran</strong></label><br><br>
+  <select id="kehadiran" class="wa-btn" onchange="konfirmasiHadir()">
+    <option value="">-- Pilih Kehadiran --</option>
+    <option value="hadir">✅ Hadir</option>
+    <option value="tidak">❌ Tidak Hadir</option>
+  </select>
+
+  <p id="pesanHadir" style="margin-top:15px;font-weight:500;color:#555"></p>
+</div>
   </div>
 
   <div class="footer">
@@ -210,7 +217,20 @@ function toggleMusic(){
     isPlaying = true;
   }
 }
+function konfirmasiHadir(){
+  const value = document.getElementById("kehadiran").value;
+  const pesan = document.getElementById("pesanHadir");
 
+  if(value === "hadir"){
+    pesan.innerHTML = "🙏 Terima kasih, kehadiran Anda sangat kami nantikan.";
+  } 
+  else if(value === "tidak"){
+    pesan.innerHTML = "🙏 Terima kasih atas konfirmasinya. Semoga kita dapat bersilaturahmi di lain waktu.";
+  } 
+  else {
+    pesan.innerHTML = "";
+  }
+}
 // COUNTDOWN
 const target = new Date("2026-01-11T09:00:00").getTime();
 setInterval(()=>{
